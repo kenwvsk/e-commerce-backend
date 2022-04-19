@@ -8,8 +8,7 @@ const { populate } = require('../models/Stock.js');
 //@access   public
 exports.getStocks = async (req, res, next) => {
   let query;
-  query = Stocks.find()
-  .populate({
+  query = Stocks.find().populate({
     path: 'items.inventory',
     select: '_id date warehousetype availableamount',
     populate: {
@@ -31,8 +30,7 @@ exports.getStocks = async (req, res, next) => {
 //@access   public
 exports.getStock = async (req, res, next) => {
   try {
-    const stocks = await Stocks.findById(req.params.id)
-    .populate({
+    const stocks = await Stocks.findById(req.params.id).populate({
       path: 'items.inventory',
       select: '_id date warehousetype availableamount',
       populate: {
@@ -57,8 +55,16 @@ exports.getStock = async (req, res, next) => {
 exports.createStock = async (req, res, next) => {
   try {
     // need for loop checking
-    // const inventory = await Inventories.findById(req.body.inventory);
-    // if (!inventory) {
+    for (i in req.body.items) {
+    const inventories = await Inventories.findById(req.body.items[i].inventory).populate({
+      path: 'sku',
+      select: 'name attributes url price description marketplaces',
+      populate: { path: 'product', select: 'name description url' },
+    });
+    req.body.items[i].inventory = inventories
+  }
+  console.log(req.body)
+  // if (!inventory) {
     //   return res.status(404).json({
     //     sucess: false,
     //     message: `Not found Inventory ID ${req.body.inventory}`,
@@ -84,11 +90,13 @@ exports.updateStock = async (req, res, next) => {
     const stocks = await Stocks.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
-    })
-    .populate({
-        path: 'items.inventory', 
-        select: '_id date warehousetype availableamount',
-        populate: { path: 'sku', select: '_id name attributes url price description marketplaces' }
+    }).populate({
+      path: 'items.inventory',
+      select: '_id date warehousetype availableamount',
+      populate: {
+        path: 'sku',
+        select: '_id name attributes url price description marketplaces',
+      },
     });
     if (!stocks) {
       return res.status(400).json({ success: false });
