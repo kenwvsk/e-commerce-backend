@@ -6,60 +6,60 @@ const Products = require('../models/Product.js');
 exports.getProducts = async (req,res,next)=>{
     let query;
 
-    //copy req.query
-    const reqQuery = {...req.query};
+    // //copy req.query
+    // const reqQuery = {...req.query};
 
-    //fields to exclude
-    const removeFields=['select', 'sort', 'page', 'limit']
+    // //fields to exclude
+    // const removeFields=['select', 'sort', 'page', 'limit']
 
-    //loop over remove fields and delete them from reqQuery
-    removeFields.forEach(param => delete reqQuery[param]);
-    console.log(reqQuery);
+    // //loop over remove fields and delete them from reqQuery
+    // removeFields.forEach(param => delete reqQuery[param]);
+    // console.log(reqQuery);
 
-    //create query string
-    let queryStr = JSON.stringify(reqQuery);
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g ,match => `$${match}`);
-    query = Products.find(JSON.parse(queryStr)).populate('skus');
+    // //create query string
+    // let queryStr = JSON.stringify(reqQuery);
+    // queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g ,match => `$${match}`);
+    query = Products.find().populate('skus');
 
-    //select fields
-    if(req.query.select){
-        const fields = req.query.select.split(',').join(' ');
-        query = query.select(fields);
-    }
+    // //select fields
+    // if(req.query.select){
+    //     const fields = req.query.select.split(',').join(' ');
+    //     query = query.select(fields);
+    // }
 
-    //sort
-    if(req.query.sort){
-        const sortBy = req.query.sort.split(',').join(' ');
-        query = query.sort(sortBy);
-    } else{
-        query = query.sort('-createdAt');
-    }
+    // //sort
+    // if(req.query.sort){
+    //     const sortBy = req.query.sort.split(',').join(' ');
+    //     query = query.sort(sortBy);
+    // } else{
+    //     query = query.sort('-createdAt');
+    // }
 
-    //pagination
-    const page = parseInt(req.query.page,10)||1;
-    const limit = parseInt(req.query.limit,10)||25;
-    const startIndex = (page-1)*limit;
-    const endIndex = (page*limit);
-    const total = await Products.countDocuments();
-    query = query.skip(startIndex).limit(limit);
+    // //pagination
+    // const page = parseInt(req.query.page,10)||1;
+    // const limit = parseInt(req.query.limit,10)||25;
+    // const startIndex = (page-1)*limit;
+    // const endIndex = (page*limit);
+    // const total = await Products.countDocuments();
+    // query = query.skip(startIndex).limit(limit);
 
     //executing query
     try{
         const products = await query;
-        //pagination result
-        const pagination = {};
-        if (endIndex<total){
-            pagination.next={
-                page:page+1,limit
-            }
-        }
-        if (startIndex>0){
-            pagination.prev={
-                page:page-1,limit
-            }
-        }
+        // //pagination result
+        // const pagination = {};
+        // if (endIndex<total){
+        //     pagination.next={
+        //         page:page+1,limit
+        //     }
+        // }
+        // if (startIndex>0){
+        //     pagination.prev={
+        //         page:page-1,limit
+        //     }
+        // }
 
-        res.status(200).json({sucess: true, count: Products.length, data: products});
+        res.status(200).json({sucess: true, count: products.length, data: products});
     } catch(err){
        console.log(err.message); 
        res.status(400).json({sucess:false});
