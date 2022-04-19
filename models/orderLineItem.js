@@ -1,42 +1,20 @@
 const mongoose = require('mongoose');
 const OrderLineItemSchema = new mongoose.Schema({
     
-    status: {
-        type: String,
-        required: [true]
-    },
-    orderNumber: {
-        type: Number,
-        unique: true,
-        required: [true, 'Please add Order number'],
-    },
-    date: {
-        type: Date,
-        required: [true, 'Please add Date'],
-    },
-    marketplaces: {
-        type: String,
-        required: [true, 'Please add Marketplaces'],
-    },
-    tracking: {
-        type: String,
-        unique: true
-    },
-    courier: {
-        type: String,
-    },
-    sku:{
-        type: String,
-        required: [true, 'Please add SKU']
+    skuId:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Sku',
+        required: true
     },
     price:{
         type: Number,
         required: [true, 'Please add Price']
     },
-    item:{
+    amount: {
         type: Number,
-        required: [true, 'Please add Item']
+        required: [true, 'Please add amount on sell']
     }
 });
 
-module.exports = mongoose.model('OrderLineItem', OrderLineItemSchema);
+module.exports.OrderLineItemSchema = OrderLineItemSchema;
+module.exports.OrderLineItemModel = mongoose.model('OrderLineItem', OrderLineItemSchema);

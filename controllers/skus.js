@@ -52,7 +52,7 @@ exports.getSkus= async (req,res,next)=>{
         if(!product){
             return res.status(404).json({sucess: false, message: `Not found product ID ${req.params.productId}`});
         }
-        req.body.product = query;
+        req.body.product = product;
         const skus = await Skus.create(req.body);
         res.status(200).json({success:true, data: skus});
     } catch(error){

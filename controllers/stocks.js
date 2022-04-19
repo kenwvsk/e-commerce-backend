@@ -56,14 +56,9 @@ exports.getStock = async (req, res, next) => {
 //@access   Private
 exports.createStock = async (req, res, next) => {
   try {
-    // const sku = await Skus.findById(req.body.sku);
+    // need for loop checking
     // const inventory = await Inventories.findById(req.body.inventory);
-    // if (!sku) {
-    //   return res.status(404).json({
-    //     sucess: false,
-    //     message: `Not found SKU ID ${req.body.sku}`,
-    //   });
-    // } else if (!inventory) {
+    // if (!inventory) {
     //   return res.status(404).json({
     //     sucess: false,
     //     message: `Not found Inventory ID ${req.body.inventory}`,

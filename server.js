@@ -7,6 +7,7 @@ const products = require('./routes/products');
 const skus =require('./routes/skus');
 const inventories = require('./routes/inventories');
 const stocks = require('./routes/stocks');
+const orders = require('./routes/orders');
 //const user =require('./routes/user');
 
 
@@ -30,6 +31,7 @@ app.use('/api/v1/products', products);
 app.use('/api/v1/skus', skus);
 app.use('/api/v1/inventories', inventories);
 app.use('/api/v1/stocks', stocks);
+app.use('/api/v1/orders', orders);
 //app.use('/api/v1/user', user);
 
 const PORT=process.env.PORT || 5000;
