@@ -27,7 +27,7 @@ exports.getSkus= async (req,res,next)=>{
      try{
         const skus = await Skus.findById(req.params.id).populate({
             path: 'product',
-            select: 'name description url'
+            select: '_id name description url'
         });
 
         if(!skus){
@@ -70,7 +70,10 @@ exports.updateSku= async (req,res,next)=>{
         const skus = await Skus.findByIdAndUpdate(req.params.id, req.body,{
             new: true,
             runValidators:true
-    });
+    }).populate({
+        path: 'product',
+        select: '_id name description url'
+    });;
         if(!skus){
             return res.status(400).json({success:false});
         }
