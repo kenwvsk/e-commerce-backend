@@ -48,13 +48,15 @@ exports.getOrder = async (req, res, next) => {
 exports.createOrder = async (req, res, next) => {
 //need for loop checking
   try {
-  //   const sku = await Skus.findById(req.body.items[0].skuId);
-  //   if (!sku) {
-  //     return res.status(404).json({
-  //       sucess: false,
-  //       message: `Not found sku ID ${req.body.skuId}`,
-  //     });
-  //  }
+    for (i in req.body.items) {
+      const skus = await Skus.findById(req.body.items[i].skuId)
+    if(!req.body.items[i].skuId){
+      return res.status(400).json({ success: false });
+    }else{
+    req.body.items[i].skuId = skus
+    }
+  }
+    console.log(req.body)
     const orders = await Orders.create(req.body);
     console.log(orders);
     res.status(200).json({ success: true, data: orders });

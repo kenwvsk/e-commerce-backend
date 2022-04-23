@@ -1,30 +1,20 @@
 const mongoose = require('mongoose');
 const StockLineItemSchema = new mongoose.Schema({
     
-    date: {
-        type: Date,
-        required: [true, 'Please add Date'],
-    },
-    marketplaces: {
-        type: String,
-        required: [true, 'Please add Marketplaces'],
-    },
-    warehouse: {
-        type: String,
-        required: [true, 'Please add Warehouse'],
-    },
-    sku: {
-        type: String,
-        required: [true, 'Please add SKU'],
-    },
-    amount: {
-        type: Number,
-        required: [true, 'Please add amount']
+    inventory: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Inventory',
+        required: true
     },
     price: {
         type: Number,
         required: [true, 'Please add a price'],
-    }
-});
+    },
+    amountonsell: {
+        type: Number,
+        required: [true, 'Please add amount on sell']
+    },
+})
 
-module.exports = mongoose.model('StockLineItem', StockLineItemSchema);
+module.exports.StockLineItemSchema = StockLineItemSchema;
+module.exports.StockLineItemModel = mongoose.model('StockLineItem', StockLineItemSchema);

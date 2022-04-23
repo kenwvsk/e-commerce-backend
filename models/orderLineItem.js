@@ -12,7 +12,7 @@ const OrderLineItemSchema = new mongoose.Schema({
     },
     amount: {
         type: Number,
-        required: [true, 'Please add amount on sell']
+        required: [true]
     }
 });
 

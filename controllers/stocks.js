@@ -56,12 +56,16 @@ exports.createStock = async (req, res, next) => {
   try {
     // need for loop checking
     for (i in req.body.items) {
-    const inventories = await Inventories.findById(req.body.items[i].inventory).populate({
+      const inventories = await Inventories.findById(req.body.items[i].inventory).populate({
       path: 'sku',
       select: 'name attributes url price description marketplaces',
       populate: { path: 'product', select: 'name description url' },
     });
+    if(!req.body.items[i].inventory){
+      return res.status(400).json({ success: false });
+    }else{
     req.body.items[i].inventory = inventories
+    }
   }
   console.log(req.body)
   // if (!inventory) {

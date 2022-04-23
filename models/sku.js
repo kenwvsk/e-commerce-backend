@@ -34,4 +34,11 @@ const SkuSchema = new mongoose.Schema({
     }
 });
 
+//cascade delete
+SkuSchema.pre('remove', async function(next){
+    console.log(`Inventory being removed from SKU ${this._id}`);
+    await this.model('Inventory').deleteMany({sku: this._id});
+    next();
+});
+
 module.exports = mongoose.model('Sku', SkuSchema);
