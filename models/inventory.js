@@ -25,6 +25,4 @@ const InventorySchema = new mongoose.Schema({
     }
 });
 
-//objectId product sku
-
 module.exports = mongoose.model('Inventory', InventorySchema);
