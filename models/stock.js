@@ -1,21 +1,7 @@
 
 const mongoose = require('mongoose');
 const {StockLineItemSchema, StockLineItemModel} = require('../models/StockLineItem.js')
-// const StockLineItemsSchema = new mongoose.Schema({
-//     inventory: {
-//         type: mongoose.Schema.ObjectId,
-//         ref: 'Inventory',
-//         required: true
-//     },
-//     price: {
-//         type: Number,
-//         required: [true, 'Please add a price'],
-//     },
-//     amountonsell: {
-//         type: Number,
-//         required: [true, 'Please add amount on sell']
-//     },
-// })
+
 const StockSchema = new mongoose.Schema({
 
     date: {
