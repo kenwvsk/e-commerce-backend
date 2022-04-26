@@ -1,4 +1,6 @@
 const Products = require('../models/Product.js');
+const Uploads = require('../models/Upload.js');
+const upload = require('../middleware/uploads.js');
 
 //@desc     Get all Products
 //@route    GET /api/v1/products

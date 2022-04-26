@@ -17,7 +17,6 @@ const OrderSchema = new mongoose.Schema({
     },
     trackNo: {
         type: String,
-        unique: true
     },
     orderStatus: {
         type: String,
@@ -25,11 +24,9 @@ const OrderSchema = new mongoose.Schema({
     },
     courier: {
         type: String,
-        required: true
     },
     deliveryBy: {
         type: String,
-        required: true
     },
     items: [OrderLineItemSchema]
 });

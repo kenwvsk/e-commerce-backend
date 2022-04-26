@@ -8,11 +8,13 @@ const InventoryLineItemSchema = new mongoose.Schema({
         type: String,
     },
     sku: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        ref: 'Sku',
     },
     amount: {
         type: Number,
     }
 });
 
-module.exports = mongoose.model('InventoryLineItem', InventoryLineItemSchema);
+module.exports.InventoryLineItemSchema = InventoryLineItemSchema;
+module.exports.InventoryLineItemModel = mongoose.model('InventoryLineItem', InventoryLineItemSchema);
