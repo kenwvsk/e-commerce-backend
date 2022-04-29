@@ -34,7 +34,7 @@ app.use('/api/v1/skus', skus);
 app.use('/api/v1/inventories', inventories);
 app.use('/api/v1/stocks', stocks);
 app.use('/api/v1/orders', orders);
-app.use('/api/v1/uploads', uploads);
+app.use('/api/v1/uploads', uploads, express.static('uploads'));
 // app.use('/api/v1/user', user);
 
 var storage = multer.diskStorage({
