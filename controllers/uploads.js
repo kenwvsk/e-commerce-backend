@@ -1,7 +1,7 @@
 const Uploads = require('../models/Upload.js');
 const upload = require('../middleware/uploads.js');
-// const { find } = require('../models/Upload.js');
-// const multer= require('multer');
+const fs = require('fs')
+
 
 //@desc     Get all Uploads
 //@route    GET /api/v1/uploads
@@ -34,8 +34,41 @@ exports.createUpload = async (req,res,next) => {
   }
 };
 
+//@desc     Delete single upload
+//@route    DELETE /api/v1/uploads/:id
+//@access   Private
+exports.deleteUpload = async (req, res, next) => {
+  console.log(req.file);
+  try {
+    const uploads = await Uploads.findById(req.params.id);
+    if (!uploads) {
+      return res.status(400).json({ success: false });
+    }
+    const pathname = uploads.filename
+    console.log(pathname)
+    await fs.unlinkSync(`./uploads/${pathname}`);
+    uploads.remove();
+    res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({ success: false });
+  }
+};
 
-
+// exports.deleteImage = async (req, res, next) => {
+//   console.log(req.body);
+//   try {
+//     const uploads = await Uploads.findById(req.params.id);
+//     if (!uploads) {
+//       return res.status(400).json({ success: false });
+//     }
+//     await uploadToRemoteBucket(`./uploads/${req.file.filename}`)
+//     await unlinkAsync(`./uploads/${req.file.filename}`)
+//     // res.status(200).json({ success: true, data: {} });
+//   } catch (err) {
+//     res.status(400).json({ success: false });
+//   }
+// };
 // var storage = multer.diskStorage({
 //     destination: function (req, file, cb) {
 //       cb(null, './uploads')
