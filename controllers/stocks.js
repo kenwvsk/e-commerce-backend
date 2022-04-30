@@ -14,6 +14,10 @@ exports.getStocks = async (req, res, next) => {
     populate: {
       path: 'sku',
       select: '_id name attributes url price description marketplaces',
+      populate: {
+        path: 'product',
+        select: '_id name description url'
+      },
     },
   });
   try {
